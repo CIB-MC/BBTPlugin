@@ -28,11 +28,6 @@ public class EventListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().sendMessage("Hello, " + event.getPlayer().getDisplayName() + "!");
-    }
-
-    @EventHandler
 	public void onSignChange(SignChangeEvent event){
         Player player = event.getPlayer();
         if (player == null) return;
