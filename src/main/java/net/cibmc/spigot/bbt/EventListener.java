@@ -18,6 +18,7 @@ import org.bukkit.TreeSpecies;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Vehicle;
+import org.bukkit.block.BlockState;
 
 public class EventListener implements Listener {
     App app;
@@ -117,6 +118,7 @@ public class EventListener implements Listener {
 		if (!sign.getLine(0).equalsIgnoreCase(BBT_SIGN_STRING))  {
             return;
         };
+        event.setCancelled(true);
 
         Block searchedBlc = null;
 
@@ -142,7 +144,7 @@ public class EventListener implements Listener {
             return;
         }
 
-        Boat boat = (Boat)player.getWorld().spawnEntity(searchedBlc.getLocation().add(0.5, 1, 0.5), EntityType.BOAT);
+        Boat boat = (Boat)player.getWorld().spawnEntity(searchedBlc.getLocation().add(0.5, 0.5, 0.5), EntityType.BOAT);
         boat.setWoodType(TreeSpecies.GENERIC);
         boat.addPassenger(player);
         this.app.isHighSpeedMode.put(boat, Boolean.FALSE);
@@ -168,27 +170,7 @@ public class EventListener implements Listener {
     }
 
     private static boolean isSign(Block blc) {
-        Material mat = blc.getType();
-		switch(mat) {
-			case ACACIA_WALL_SIGN:
-			case BIRCH_WALL_SIGN:
-			case DARK_OAK_WALL_SIGN:
-			case JUNGLE_WALL_SIGN:
-			case OAK_WALL_SIGN:
-			case SPRUCE_WALL_SIGN:
-            case CRIMSON_WALL_SIGN:
-            case WARPED_WALL_SIGN:
-			case ACACIA_SIGN:
-			case BIRCH_SIGN:
-			case DARK_OAK_SIGN:
-			case JUNGLE_SIGN:
-			case OAK_SIGN:
-			case SPRUCE_SIGN:
-            case CRIMSON_SIGN:
-            case WARPED_SIGN:
-				return true;
-			default:
-				return false;
-		}
+        BlockState bs = blc.getState();
+		return (bs instanceof Sign);
     }
 }
